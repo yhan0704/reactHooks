@@ -1,6 +1,10 @@
 #React Hooks Studying
 
-* useState
+* useState(count)
+
+* useState(input handle)
+
+* useState(input handle) w/ Destructuring Props, spread operator
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

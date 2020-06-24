@@ -1,11 +1,13 @@
 import React from "react";
 import "./App.css";
-import Count from "./Count";
+import MultiInput from "./MultiInput";
 
 function App() {
     return (
       <div className="App">
-        <Count/>
+        <div>
+          <MultiInput/>
+        </div>
       </div>
     );
 }
