@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 function MultiInput() {
   const [inputs, newInput] = useState({
@@ -6,27 +6,35 @@ function MultiInput() {
     nickName: "",
   });
 
-  const {name, nickName} = inputs;  //Destructuring Props
+  const { name, nickName } = inputs; //Destructuring Props
+  const nameInput = useRef();
 
   const onChangeText = (e) => {
-    const {name, value} = e.target;  //Destructuring Props
+    const { name, value } = e.target; //Destructuring Props
 
     newInput({
-      ...inputs,  //spread operator
+      ...inputs, //spread operator
       [name]: value,
     });
   };
 
   const onReset = () => {
     newInput({
-        name: "",
-        nickName: "",
+      name: "",
+      nickName: "",
     });
+    nameInput.current.focus();
   };
 
   return (
     <div>
-      <input type="text" name="name" onChange={onChangeText} value={name} />
+      <input
+        type="text"
+        name="name"
+        ref={nameInput}
+        onChange={onChangeText}
+        value={name}
+      />
       <input
         type="text"
         name="nickName"

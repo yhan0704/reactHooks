@@ -6,6 +6,11 @@
 
 * useState(input handle) w/ Destructuring Props, spread operator
 
+* useRef(focus)
+
+* add array of object
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
