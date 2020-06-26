@@ -1,21 +1,26 @@
 import React from "react";
 
-function User({ user }) {
+function User({ user, onRemove, changeColor }) {
   return (
     <div>
-      <b>{user.username}</b> <span>({user.email})</span>
+      <b
+        style={{ cursor: "pointer", color: user.active ? "red" : "black" }}
+        onClick={() => changeColor(user.id)}
+      >
+        {user.username}
+      </b>{" "}
+      <span>({user.email})</span>
+      <button onClick={() => onRemove(user.id)}>delete</button>
     </div>
   );
 }
 
-function UserList({ users }) {
+export default function UserList({ users, onRemove, changeColor }) {
   return (
     <div>
-      {users.map(user => (
-        <User user={user} key={user.id} />
+      {users.map((user) => (
+        <User user={user} key={user.id} onRemove={onRemove} changeColor={changeColor} />
       ))}
     </div>
   );
 }
-
-export default UserList;

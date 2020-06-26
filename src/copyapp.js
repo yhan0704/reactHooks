@@ -23,19 +23,16 @@ function App() {
       id: 1,
       username: "Young",
       email: "Young@gmail.com",
-      active: true,
     },
     {
       id: 2,
       username: "Tester",
       email: "tester@example.com",
-      active: false,
     },
     {
       id: 3,
       username: "Tom",
       email: "tom@google.com",
-      active: false,
     },
   ]);
 
@@ -54,19 +51,6 @@ function App() {
     });
   };
 
-  const onRemove = (id) => {
-    newUsers(users.filter((user) => user.id !== id));
-  };
-
-  const changeColor = (userId) => {
-    newUsers(users.map(user => {
-      if(user.id === userId){
-        return {...user, active:!user.active}
-      }
-      return user
-    }))
-  };
-
   return (
     <div>
       <CreateUser
@@ -75,7 +59,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} onRemove={onRemove} changeColor={changeColor} />
+      <UserList users={users} />
     </div>
   );
 }
