@@ -1,6 +1,7 @@
 import React, { useReducer, useRef, useMemo } from "react";
 import UserList from "./UserList";
 import CreateUser from "./CreateUser";
+import users from "./data/users.json"
 
 const countActive = (users) =>{
   return users.filter(user => user.active).length;
@@ -11,30 +12,11 @@ const initialState = {
     username: "",
     email: "",
   },
-  users: [
-    {
-      id: 1,
-      username: "Young",
-      email: "Young@gmail.com",
-      active: true,
-    },
-    {
-      id: 2,
-      username: "Tester",
-      email: "tester@example.com",
-      active: false,
-    },
-    {
-      id: 3,
-      username: "Tom",
-      email: "tom@google.com",
-      active: false,
-    },
-  ],
+  users: users
 };
 
 const reducer = (state, action) => {
-  console.log(action)
+  // console.log(action)
   switch (action.type) {
     case "CHANGE_INPUT":
       return {
@@ -70,6 +52,10 @@ const reducer = (state, action) => {
 };
 
 function App() {
+   // useReducer(
+   // reducer is const [state,dispatch] === const reducer = (state, action)
+   // initialState is const initialState
+   // )
   const [state, dispatch] = useReducer(reducer, initialState);
   const { users } = state;
   const nextId = useRef(4);

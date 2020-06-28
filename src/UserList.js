@@ -1,16 +1,17 @@
 import React from "react";
 
 function User({ user, onRemove, changeColor }) {
+  const {id, username, email} = user
   return (
     <div>
       <b
         style={{ cursor: "pointer", color: user.active ? "red" : "black" }}
-        onClick={() => changeColor(user.id)}
+        onClick={() => changeColor(id)}
       >
-        {user.username}
+        {username}
       </b>{" "}
-      <span>({user.email})</span>
-      <button onClick={() => onRemove(user.id)}>delete</button>
+      <span>({email})</span>
+      <button onClick={() => onRemove(id)}>delete</button>
     </div>
   );
 }
