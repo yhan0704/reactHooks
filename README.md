@@ -14,7 +14,9 @@
 
 * modify array of object
 
+* useMemo // when event occur
 
+* useReducer
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

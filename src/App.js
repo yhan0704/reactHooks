@@ -1,24 +1,17 @@
-import React, { useState } from "react";
+import React, { useReducer, useRef, useMemo } from "react";
 import UserList from "./UserList";
 import CreateUser from "./CreateUser";
 
-function App() {
-  const [inputs, newInputs] = useState({
+const countActive = (users) =>{
+  return users.filter(user => user.active).length;
+}
+
+const initialState = {
+  inputs: {
     username: "",
     email: "",
-  });
-
-  const { username, email } = inputs;
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    newInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
-
-  const [users, newUsers] = useState([
+  },
+  users: [
     {
       id: 1,
       username: "Young",
@@ -37,35 +30,88 @@ function App() {
       email: "tom@google.com",
       active: false,
     },
-  ]);
+  ],
+};
 
-  const onCreate = () => {
-    const user = {
-      id: users.length + 1,
-      username,
-      email,
-    };
+const reducer = (state, action) => {
+  console.log(action)
+  switch (action.type) {
+    case "CHANGE_INPUT":
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          [action.name]: action.value,
+        },
+      };
+    case "CREATE_USER":
+      return {
+        inputs: initialState.inputs,
+        users: state.users.concat(action.user),
+      };
+    case "DELETE_USER":
+      return {
+        ...state,
+        users: state.users.filter((user) => user.id !== action.id),
+      };
+    case "TOGGLE_COLOR":
+      return {
+        ...state,
+        users: state.users.map((user) => {
+          if (user.id === action.id) {
+            return { ...user, active: !user.active };
+          }
+          return user;
+        }),
+      };
+    default:
+      return state;
+  }
+};
 
-    newUsers([...users, user]);
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { users } = state;
+  const nextId = useRef(4);
+  const { username, email } = state.inputs;
 
-    newInputs({
-      username: "",
-      email: "",
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    dispatch({
+      type: "CHANGE_INPUT",
+      name,
+      value,
     });
   };
 
-  const onRemove = (id) => {
-    newUsers(users.filter((user) => user.id !== id));
+  const onCreate = () => {
+    dispatch({
+      type: "CREATE_USER",
+      user: {
+        id: nextId.current,
+        username,
+        email,
+      },
+    });
+    nextId.current += 1;
   };
 
-  const changeColor = (userId) => {
-    newUsers(users.map(user => {
-      if(user.id === userId){
-        return {...user, active:!user.active}
-      }
-      return user
-    }))
+  const onRemove = (id) => {
+    dispatch({
+      type: "DELETE_USER",
+      id,
+    });
   };
+
+  const changeColor = (id) => {
+    dispatch({
+      type: "TOGGLE_COLOR",
+      id,
+    });
+  };
+
+  const count = useMemo(()=>countActive(users),[users])
+
 
   return (
     <div>
@@ -76,6 +122,7 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} onRemove={onRemove} changeColor={changeColor} />
+  <div>If color is red:{count}</div>
     </div>
   );
 }
